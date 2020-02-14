@@ -30,7 +30,7 @@ public class App {
 
     /* Returns the number of empty squares
     adjacent to (column, line) */
-    Integer getDegree(Integer boardCells[], Integer column, Integer line) {
+    Integer getNeighboringEmptyCellsNumber(Integer boardCells[], Integer column, Integer line) {
         Integer count = 0;
         for (Integer i = 0; i < boardSize; ++i)
             if (isCellValidAndEmpty(boardCells, (column + moves[i][0]),
@@ -44,7 +44,7 @@ public class App {
     // Returns false if it is not possible to pick
     // next point.
     Cell nextMove(Integer boardCells[], Cell currentCell) {
-        Integer minDegreeIndex = -1;
+        Integer choosenMovement = -1;
         Integer adjacentEmptyCellsNumber;
         Integer previousAdjacentEmptyCellsNumber = (boardSize + 1);
         Integer newColumn;
@@ -55,24 +55,24 @@ public class App {
         // with minimum degree.
         Integer start = ThreadLocalRandom.current().nextInt(1000) % boardSize;
         for (Integer count = 0; count < boardSize; ++count) {
-            Integer i = (start + count) % boardSize;
-            newColumn = currentCell.getColumn() + moves[i][0];
-            newLine = currentCell.getLine() + moves[i][1];
-            adjacentEmptyCellsNumber = getDegree(boardCells, newColumn, newLine);
+            Integer possibleMovement = (start + count) % boardSize;
+            newColumn = currentCell.getColumn() + moves[possibleMovement][0];
+            newLine = currentCell.getLine() + moves[possibleMovement][1];
+            adjacentEmptyCellsNumber = getNeighboringEmptyCellsNumber(boardCells, newColumn, newLine);
             if ((isCellValidAndEmpty(boardCells, newColumn, newLine))
                     && adjacentEmptyCellsNumber < previousAdjacentEmptyCellsNumber) {
-                minDegreeIndex = i;
+                choosenMovement = possibleMovement;
                 previousAdjacentEmptyCellsNumber = adjacentEmptyCellsNumber;
             }
         }
 
         // IF we could not find boardCells next currentCell
-        if (minDegreeIndex == -1)
+        if (choosenMovement == -1)
             return null;
 
         // Store coordinates of next point
-        newColumn = currentCell.getColumn() + moves[minDegreeIndex][0];
-        newLine = currentCell.getLine() + moves[minDegreeIndex][1];
+        newColumn = currentCell.getColumn() + moves[choosenMovement][0];
+        newLine = currentCell.getLine() + moves[choosenMovement][1];
 
         // Mark next move
         boardCells[newLine * boardSize + newColumn] = boardCells[(currentCell.getLine()) * boardSize +
