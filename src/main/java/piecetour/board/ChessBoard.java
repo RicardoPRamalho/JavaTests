@@ -74,7 +74,7 @@ public class ChessBoard {
      * @throws InvalidPositionException if the line and column values are invalid
      */
     private void setCellAt(Integer linePlace, Integer columnPlace, Cell cell) throws InvalidPositionException {
-        if (isPointInsideBoardLimits(linePlace, columnPlace)) {
+        if (!isPointInsideBoardLimits(linePlace, columnPlace)) {
             throw new InvalidPositionException("Invalid line and column");
         }
         boardCells[columnPlace * boardSize + linePlace] = cell;
@@ -88,7 +88,7 @@ public class ChessBoard {
      * @return respective position {@link piecetour.board.Cell}
      */
     public Cell getCellAt(Integer linePlace, Integer columnPlace) throws InvalidPositionException {
-        if (isPointInsideBoardLimits(linePlace, columnPlace)) {
+        if (!isPointInsideBoardLimits(linePlace, columnPlace)) {
             throw new InvalidPositionException("Invalid line and column");
         }
         return boardCells[columnPlace * boardSize + linePlace];
