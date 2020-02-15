@@ -21,14 +21,20 @@ repositories {
 }
 
 dependencies {
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:28.1-jre'
-
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+    implementation 'org.jetbrains:annotations:15.0'
 }
 
 application {
     // Define the main class for the application.
     mainClassName = 'piecetour.App'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'piecetour.App'
+        )
+    }
 }

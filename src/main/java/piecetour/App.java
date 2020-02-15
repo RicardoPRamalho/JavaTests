@@ -3,17 +3,46 @@
  */
 package piecetour;
 
+import piecetour.board.InvalidPositionException;
 import piecetour.board.piece.PieceTour;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * Main class responsible to run the application
+ *
+ * @author Ricardo Pereira Ramalho
+ */
 public class App {
 
+    /** Logger to show warnings */
+    private static Logger logger = Logger.getLogger(App.class.getName());
 
-    // Driver Code
+
+    /**
+     * Main method to execute the application
+     *
+     * @param args two {@link Integer} positive numbers, respectively the initial line and the initial column.
+     */
     public static void main(String[] args) {
-        // While we don't get a solution
-        PieceTour pieceTour = new PieceTour();
-        pieceTour.findClosedTour(3, 2);
-        pieceTour.getBoard().printBoard();
+        try {
+            PieceTour pieceTour = new PieceTour();
+            Integer initialLine = Integer.parseInt(args[0]);
+            Integer initialColumn = Integer.parseInt(args[1]);
+            pieceTour.findClosedTour(initialLine, initialColumn);
+            pieceTour.getBoard().printBoard();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, String.
+                    format("Please, provide both initial line and initial column: %s",
+                            String.join(" ", args)));
+        } catch (NumberFormatException | InvalidPositionException e) {
+            logger.log(Level.WARNING, String.
+                    format("Please, provide valid numbers. " +
+                                    "Initial line and initial column should be positive integers values between 0 and 9. " +
+                                    "Line and column numbers provided: %s",
+                            String.join(" ", args)));
+        }
 
     }
 }

@@ -2,23 +2,59 @@ package piecetour.board.piece;
 
 import piecetour.board.Cell;
 import piecetour.board.ChessBoard;
+import piecetour.board.InvalidPositionException;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 
+/**
+ * Perform the piece's tour using the Warnsdorff's rule
+ *
+ * @author Ricardo Pereira Ramalho
+ */
 public class PieceTour {
 
+    /**
+     * Logger to show warnings and info
+     */
+    private Logger logger = Logger.getLogger(PieceTour.class.getName());
+
+    /**
+     * Attribute that represents the chessboard
+     */
     public ChessBoard board;
 
-    /* Generates the legal moves using warnsdorff's
-    heuristics. Returns false if not possible */
-    public void findClosedTour(Integer initialLine, Integer initialColumn) {
-        while (!makeTour(initialLine, initialColumn)) {
-            System.out.println("processing tour...");
+
+    /*  */
+
+    /**
+     * Initiate the piece's tour processing it until it's complete.
+     *
+     * @param initialLine   {@link Integer} initial position in the line
+     * @param initialColumn {@link Integer} initial position in the column
+     * @throws InvalidPositionException if any invalid position is attempted
+     */
+    public void findClosedTour(Integer initialLine, Integer initialColumn) throws InvalidPositionException {
+        Boolean tourComplete = Boolean.FALSE;
+        while (!tourComplete) {
+            tourComplete = makeTour(initialLine, initialColumn);
         }
     }
 
-    private Boolean makeTour(Integer initialLine, Integer initialColumn) {
+    /**
+     * Generates the tour using Warnsdorff's rule.
+     *
+     * @param initialLine   {@link Integer} initial position in the line
+     * @param initialColumn {@link Integer} initial position in the column
+     * @return {@link Boolean} states if the movements using the Warnsdorff rule are possible.
+     * @throws InvalidPositionException if any invalid position is attempted
+     */
+    private Boolean makeTour(Integer initialLine, Integer initialColumn) throws InvalidPositionException {
         board = new ChessBoard(10);
+
+        if (!board.isPointInsideBoardLimits(initialLine, initialColumn)) {
+            throw new InvalidPositionException("Invalid line and column");
+        }
         Cell cell = board.getCellAt(initialLine, initialColumn);
         cell.setVisitNumber(1); // Mark first move.
         Integer requiredMoviments = board.getBoardSize() * board.getBoardSize() - 1;
@@ -29,27 +65,27 @@ public class PieceTour {
                 return false;
             }
         }
-        if (!neighbour(cell, initialLine, initialColumn)) {
+        if (!verifyNeighbours(cell, initialLine, initialColumn)) {
             return false;
         }
         return true;
 
     }
 
-    // Picks next point using Warnsdorff's heuristic.
-    // Returns false if it is not possible to pick
-    // next point.
-    private Cell nextMove(Cell currentCell) {
-        // Try all N adjacent of (*x, *y) starting
-        // from boardCells random adjacent. Find the adjacent
-        // with minimum degree.
-        Movement chosenMovement = findBestMovementByWarnsdorffRule(currentCell);
+    /**
+     * Given the current {@link piecetour.board.Cell} retrieves the next {@link piecetour.board.Cell} according to the
+     * Warnsdorff's Rule
+     *
+     * @param currentCell {@link piecetour.board.Cell} where the movement has been initiated
+     * @return {@link piecetour.board.Cell} where the movement ended, {@link null} if no possible movement can be attempted
+     * @throws InvalidPositionException if any invalid position is attempted
+     */
+    private Cell nextMove(Cell currentCell) throws InvalidPositionException {
+        Movement chosenMovement = findBestMovementByWarnsdorffsRule(currentCell);
 
-        // IF we could not find boardCells next currentCell
         if (chosenMovement == null) {
             return null;
         }
-
         Cell nextCell = board.getCellAt(currentCell.getLine() + chosenMovement.getLine(),
                 currentCell.getColumn() + chosenMovement.getColumn());
         nextCell.setVisitNumber(
@@ -58,7 +94,18 @@ public class PieceTour {
         return nextCell;
     }
 
-    private Movement findBestMovementByWarnsdorffRule(Cell currentCell) {
+    /**
+     * Implements the Waensdorff's rule that states:
+     * 1- Given a initial cell
+     * 2- Randomly iterate over the movements
+     * 3- Verifies all the adjacent cells
+     * 4- Select the cell with minor number of unvisited places adjacent
+     * 
+     * @param currentCell {@link piecetour.board.Cell} where the movement has been initiated
+     * @return  {@link piecetour.board.Cell} where the movement ended
+     * @throws InvalidPositionException if any invalid position is attempted
+     */
+    private Movement findBestMovementByWarnsdorffsRule(Cell currentCell) throws InvalidPositionException {
         Movement possibleMovement;
         Integer possibleLine;
         Integer possibleColumn;
@@ -80,9 +127,16 @@ public class PieceTour {
         return choosenMovement;
     }
 
-    /* Returns the number of empty squares
-    adjacent to (linePlace, columnPlace) */
-    private Integer getNeighboringEmptyCellsNumber(Integer linePlace, Integer columnPlace) {
+    /**
+     * Retrieves the quantity of empty squares neighboring the given position
+     *
+     * @param linePlace   {@link Integer} position in the line
+     * @param columnPlace {@link Integer} position in the column
+     * @return {@link Integer} the number of empty squares adjacent to the given position
+     * @throws InvalidPositionException
+     */
+    private Integer getNeighboringEmptyCellsNumber(Integer linePlace, Integer columnPlace)
+            throws InvalidPositionException {
         Integer count = 0;
         for (Movement move : Movement.values()) {
             if (board.isCellValidAndEmpty((linePlace + move.getLine()), (columnPlace + move.getColumn()))) {
@@ -93,20 +147,29 @@ public class PieceTour {
         return count;
     }
 
-    /* checks its neighbouring sqaures */
-    /* If the knight ends on a square that is one
-    knight's move from the beginning square,
-    then tour is closed */
-    private Boolean neighbour(Cell nextCell, Integer currentLine, Integer currentColumn) {
+    /**
+     * Validate if the given cell is near the given position
+     *
+     * @param cell          {@link piecetour.board.Cell} to be verified
+     * @param currentLine   {@link Integer} position in the line
+     * @param currentColumn {@link Integer} position in the line
+     * @return {@link Boolean} states if the cell is near the given position
+     */
+    private Boolean verifyNeighbours(Cell cell, Integer currentLine, Integer currentColumn) {
         for (Movement move : Movement.values()) {
-            if (((nextCell.getLine() + move.getLine()) == currentLine) &&
-                    ((nextCell.getColumn() + move.getColumn()) == currentColumn)) {
+            if (((cell.getLine() + move.getLine()) == currentLine) &&
+                    ((cell.getColumn() + move.getColumn()) == currentColumn)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Getter method for the attribute {@code board}
+     *
+     * @return {@link piecetour.board.ChessBoard} containing the chessboard in which the tour occurred.
+     */
     public ChessBoard getBoard() {
         return board;
     }
