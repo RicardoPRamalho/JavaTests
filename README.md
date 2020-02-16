@@ -49,7 +49,7 @@ gradle clean build
 And to Run the application. The arguments states the initial line and the initial column, respectively.
 
 ```
-gradle run --args="3 2"
+gradle run --args="INITIAL_LINE INITIAL_COLUMN"
 ```
 Sample Output
 ```
