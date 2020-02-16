@@ -103,7 +103,7 @@ Execute below command to get an executable jar file under project *{projectRoot}
 gradle clean build
 ```
 
-Execute below command to execute as java application without scala dependencies from */build/libs* location 
+Execute below command to execute as java application from *{projectRoot}/build/libs* location 
 
 ```
 java -jar PieceTour.jar INITIAL_LINE INITIAL_COLUMN
