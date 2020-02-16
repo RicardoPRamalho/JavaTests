@@ -36,7 +36,7 @@ public class Cell {
     }
 
     /**
-     * Getter method for the attribute {@link line}
+     * Getter method for the attribute {@code line}
      *
      * @return {@link Integer} the position of the cell in the board line
      */
@@ -45,7 +45,7 @@ public class Cell {
     }
 
     /**
-     * Getter method for the attribute {@link column}
+     * Getter method for the attribute {@code column}
      *
      * @return {@link Integer} the position of the cell in the board column
      */
@@ -54,7 +54,7 @@ public class Cell {
     }
 
     /**
-     * Getter method for the attribute {@link visitNumber}
+     * Getter method for the attribute {@code visitNumber}
      *
      * @return {@link Integer} containing the order this cell has been visited by the piece
      */
@@ -63,7 +63,7 @@ public class Cell {
     }
 
     /**
-     * Setter method for the attribute {@link visitNumber}
+     * Setter method for the attribute {@code visitNumber}
      *
      * @param visitNumber {@link Integer} containing the order this cell has been visited by the piece
      */
@@ -79,9 +79,7 @@ public class Cell {
         if (this == o) return true;
         if (!(o instanceof Cell)) return false;
         Cell cell = (Cell) o;
-        return getLine().equals(cell.getLine()) &&
-                getColumn().equals(cell.getColumn()) &&
-                getVisitNumber().equals(cell.getVisitNumber());
+        return getVisitNumber().equals(cell.getVisitNumber());
     }
 
     /**
@@ -89,7 +87,7 @@ public class Cell {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(getLine(), getColumn(), getVisitNumber());
+        return Objects.hash(getVisitNumber());
     }
 
     /**

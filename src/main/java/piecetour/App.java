@@ -3,7 +3,7 @@
  */
 package piecetour;
 
-import piecetour.board.InvalidPositionException;
+import piecetour.board.exception.InvalidPositionException;
 import piecetour.board.piece.PieceTour;
 
 import java.util.logging.Level;

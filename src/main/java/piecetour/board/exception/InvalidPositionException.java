@@ -1,4 +1,4 @@
-package piecetour.board;
+package piecetour.board.exception;
 
 /**
  *

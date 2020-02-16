@@ -1,5 +1,6 @@
 package piecetour.board;
 
+import piecetour.board.exception.InvalidPositionException;
 import piecetour.board.piece.PieceTour;
 
 import java.text.DecimalFormat;
@@ -114,7 +115,7 @@ public class ChessBoard {
      * @return {@link Boolean} that states if the cell is valid to be visited
      * @throws InvalidPositionException if the line and column values are invalid
      */
-    public boolean isCellValidAndEmpty(Integer linePlace, Integer columnPlace) throws InvalidPositionException {
+    public Boolean isCellValidAndEmpty(Integer linePlace, Integer columnPlace) throws InvalidPositionException {
         return (isPointInsideBoardLimits(linePlace, columnPlace)) && (getCellAt(linePlace, columnPlace).getVisitNumber() < 0);
     }
 

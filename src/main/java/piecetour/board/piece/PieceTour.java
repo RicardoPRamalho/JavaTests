@@ -2,7 +2,7 @@ package piecetour.board.piece;
 
 import piecetour.board.Cell;
 import piecetour.board.ChessBoard;
-import piecetour.board.InvalidPositionException;
+import piecetour.board.exception.InvalidPositionException;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
@@ -22,7 +22,7 @@ public class PieceTour {
     /**
      * Attribute that represents the chessboard
      */
-    public ChessBoard board;
+    private ChessBoard board;
 
 
     /*  */
