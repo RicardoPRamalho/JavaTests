@@ -65,7 +65,7 @@ public class PieceTour {
                 return false;
             }
         }
-        if (!verifyNeighbours(cell, initialLine, initialColumn)) {
+        if (!verifyCellIsNeighbourToPosition(cell, initialLine, initialColumn)) {
             return false;
         }
         return true;
@@ -148,14 +148,14 @@ public class PieceTour {
     }
 
     /**
-     * Validate if the given cell is near the given position
+     * Validate if the given cell is one movement distance from the given position
      *
      * @param cell          {@link piecetour.board.Cell} to be verified
      * @param currentLine   {@link Integer} position in the line
-     * @param currentColumn {@link Integer} position in the line
-     * @return {@link Boolean} states if the cell is near the given position
+     * @param currentColumn {@link Integer} position in the column
+     * @return {@link Boolean} states if the cell is one movement distance the given position
      */
-    private Boolean verifyNeighbours(Cell cell, Integer currentLine, Integer currentColumn) {
+    private Boolean verifyCellIsNeighbourToPosition(Cell cell, Integer currentLine, Integer currentColumn) {
         for (Movement move : Movement.values()) {
             if (((cell.getLine() + move.getLine()) == currentLine) &&
                     ((cell.getColumn() + move.getColumn()) == currentColumn)) {
