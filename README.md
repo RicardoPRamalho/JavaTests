@@ -46,11 +46,13 @@ To build the project
 gradle clean build
 ```
 
-And to Run the application. The arguments states the initial line and the initial column, respectively.
+And to Run the application.
 
 ```
 gradle run --args="INITIAL_LINE INITIAL_COLUMN"
 ```
+INITIAL_LINE and INITIAL_COLUMN should be both positive integers between 0 and 9.
+
 Sample Output
 ```
 ricardo@ricardo-Dell-System-XPS-L502X /opt/dev/projects/PieceTour (master) $ gradle run --args="3 2"
@@ -104,8 +106,9 @@ gradle clean build
 Execute below command to execute as java application without scala dependencies from */build/libs* location 
 
 ```
-java -jar PieceTour.jar 3 2
+java -jar PieceTour.jar INITIAL_LINE INITIAL_COLUMN
 ```
+INITIAL_LINE and INITIAL_COLUMN should be both positive integers between 0 and 9.
 
 Sample output
 
