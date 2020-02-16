@@ -46,7 +46,7 @@ To build the project
 gradle clean build
 ```
 
-And to Run the application. The attribute states the initial line and the initial column, respectively.
+And to Run the application. The arguments states the initial line and the initial column, respectively.
 
 ```
 gradle run --args="3 2"
