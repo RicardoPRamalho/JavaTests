@@ -82,7 +82,7 @@ To run the tests
 gradle test
 ```
 
-The test report will be available in */build/reports/tests/test/index.html*
+The test report will be available in *{projectRoot}/build/reports/tests/test/index.html*
 
 ## Development
 
@@ -95,7 +95,7 @@ gradle idea
 
 ## Deployment
 
-Execute below command to get an executable jar file under project */build/libs* folder
+Execute below command to get an executable jar file under project *{projectRoot}/build/libs* folder
 
 ```
 gradle clean build
