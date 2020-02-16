@@ -15,12 +15,12 @@ Southeast, Southwest, or Northwest.
 c) Each space can only be visited once.
 
 #### Warnsdorff's Rule: 
-The solution to the challenge is the use of Warnsdorff's Rule. The Warnsdorff's Rule is a heuristic algorithm that 
+The solution to the challenge is the use of the Warnsdorff's Rule. The Warnsdorff's Rule is a heuristic algorithm that 
 states a movement is done to the next cell with fewest onward moves, following the steps:
 
-1. It starts with the initial cell, marked withnumber 1.
-2. From the previous position, collect all its neighboring cells.
-3. Select any cell which fewer unvisited neighbors.
+1. It starts with the initial cell, marked with number 1.
+2. From the starting position, collect all its neighboring cells.
+3. Select any cell with fewer unvisited neighbors.
 5. Mark the selected cell as visited, then repeat the process until all the cells has been marked.
 
 
